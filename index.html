@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        
+        <center>
+            <table>
+                <tr>
+                    <th><button onclick="changecolor(1)" style="width:190px;height:190px;background-color:white" id="1">    </button></th>
+                    <th><button onclick="changecolor(2)" style="width:190px;height:190px;background-color:white" id="2">    </button></th>
+                    <th><button onclick="changecolor(3)" style="width:190px;height:190px;background-color:white" id="3">    </button></th>
+                    <th><button onclick="changecolor(4)" style="width:190px;height:190px;background-color:white" id="4">    </button></th>
+                </tr>
+                <tr>
+                    <th><button onclick="changecolor(5)" style="width:190px;height:190px;background-color:white" id="5">    </button></th>
+                    <th><button onclick="changecolor(6)" style="width:190px;height:190px;background-color:white" id="6">    </button></th>
+                    <th><button onclick="changecolor(7)" style="width:190px;height:190px;background-color:white" id="7">    </button></th>
+                    <th><button onclick="changecolor(8)" style="width:190px;height:190px;background-color:white" id="8">    </button></th>
+                </tr>
+                <tr>
+                    <th><button onclick="changecolor(9)" style="width:190px;height:190px;background-color:white" id="9">    </button></th>
+                    <th><button onclick="changecolor(10)" style="width:190px;height:190px;background-color:white" id="10">    </button></th>
+                    <th><button onclick="changecolor(11)" style="width:190px;height:190px;background-color:white" id="11">    </button></th>
+                    <th><button onclick="changecolor(12)" style="width:190px;height:190px;background-color:white" id="12">    </button></th>
+                </tr>
+                <tr>
+                    <th><button onclick="changecolor(13)" style="width:190px;height:190px;background-color:white" id="13">    </button></th>
+                    <th><button onclick="changecolor(14)" style="width:190px;height:190px;background-color:white" id="14">    </button></th>
+                    <th><button onclick="changecolor(15)" style="width:190px;height:190px;background-color:white" id="15">    </button></th>
+                    <th><button onclick="changecolor(16)" style="width:190px;height:190px;background-color:white" id="16">    </button></th>
+                </tr>
+            </table>
+        </center>
+        <p id="clicks" style="visibility: hidden">0<p>
+        <p id="colors" style="visibility: hidden"><p>
+        <p id="numbers" style="visibility: hidden"><p>
+        <p id="listy" style="visibility: hidden"><p>
+        <p id="time" style="visibility: hidden">1<p>
+        <script>
+            
+            
+            function shuffle(array) {
+                // Note: this function is not my code - this is the Fisher-Yates shuffling algorithm - credit goes to Mike Bostok
+                var m = array.length, t, i;
+                
+                // While there remain elements to shuffle…
+                while (m) {
+                    
+                    // Pick a remaining element…
+                    i = Math.floor(Math.random() * m--);
+                    
+                    // And swap it with the current element.
+                    t = array[m];
+                    array[m] = array[i];
+                    array[i] = t;
+                }
+                
+                return array;
+            }
+        
+        var colors = ['blue','green','yellow','red','orange','purple','pink','black','blue','green','yellow','red','orange','purple','pink','black'];
+        shuffle(colors);
+        document.getElementById('time').innerHTML=new Date().getTime(); //set time "variable" to current time in milliseconds
+        console.log(new Date().getTime()); //log time
+        changecolor=function (id) {
+            document.getElementById('clicks').innerHTML = (parseInt(document.getElementById('clicks').innerHTML)+1).toString(); //add one to clicks "variable"
+            var clicks=parseInt(document.getElementById('clicks').innerHTML); //make real variable clicks
+            
+            if (clicks>2){ //if the user clicks twice
+                
+                if (document.getElementById('colors').innerHTML.split(' ')[1]==document.getElementById('colors').innerHTML.split(' ')[2] && document.getElementById('numbers').innerHTML.split(' ')[1]!=document.getElementById('numbers').innerHTML.split(' ')[2]){
+                    document.getElementById('listy').innerHTML=document.getElementById('listy').innerHTML+document.getElementById('numbers').innerHTML; //check if the colors are the same. if they are store the ids in listy
+                    
+                }
+                
+                for (i = 1; i <= 16; i++) {
+                    document.getElementById(i).style.backgroundColor = "white"; //set them all to white
+                }
+                for (i = 1; i <= 16; i++) {
+                    if (document.getElementById('listy').innerHTML.split(' ').indexOf(i.toString()) > -1){
+                        document.getElementById(i).style.backgroundColor = colors[i-1];
+                        console.log(document.getElementById('listy').innerHTML.split(' ')) //add the color to the tiles that are already gotten
+                    }
+                }
+                document.getElementById('clicks').innerHTML="0"; //reset variables
+                document.getElementById('colors').innerHTML='';
+                document.getElementById('numbers').innerHTML='';
+            }
+            else { //when the user clicks (not twice)
+                document.getElementById(id).style.backgroundColor = colors[id-1]; // set tile to the corrosponding color
+                document.getElementById('colors').innerHTML=document.getElementById('colors').innerHTML+' '+colors[id-1]; // add color to color variable
+                document.getElementById('numbers').innerHTML=document.getElementById('numbers').innerHTML+' '+id; //add id number to numbers variable
+                if (document.getElementById('listy').innerHTML.split(' ').length>16){ //if the board is filled and done
+                    console.log(parseInt(document.getElementById('time').innerHTML)) // log the score (time now minus time when started)
+                    alert('Your score is '+(new Date().getTime()-parseInt(document.getElementById('time').innerHTML)).toString()+' milliseconds. Click ok to start a new game.'); //alert score
+                    
+                    location.reload(); //reload for a new game
+                }
+                
+            }
+        }
+        
+            </script>
+        
+    </body>
+</html>
+
